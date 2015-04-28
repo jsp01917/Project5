@@ -2,25 +2,7 @@
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-public class SnakeArena extends Application{
-	
-	BorderPane root;
-	
-	public static void main(String[] args){
-		launch(args);
-	}
-	public void start(Stage primaryStage){
-		primaryStage.setTitle("Greedy Snake");
-		root = new BorderPane();
-		
-		primaryStage.setScene(new Scene(root, 400,400));
-		primaryStage.show();
-	}
-}
 */
-
-
 //In directory src,
 //Compile: mvn package
 //Run: java -cp target/snake-1.0-SNAPSHOT.jar edu.uga.cs1302.App
@@ -95,7 +77,6 @@ public class App extends Application {
         snakeTailRow = snakeHeadRow = rand.nextInt(NUM_COLS-2) +1; //Do not start with position next to the wall
         snakeTailCol = snakeHeadCol = rand.nextInt(NUM_ROWS-2) +1; //Do not start with position next to the wall
         addToHead(); //You need to implement this method to see the snake
-
         numEggsEaten = 0;
     }
 
@@ -303,42 +284,59 @@ public class App extends Application {
     }
 
     //To move a snake, a simple way is to move the tail and attach that tail to the front of the head.  
+    //INPROGRESS: possibly finished? needs to be tested.
+    //need to add check for ability to move in that direction
     public void move(Direction dir) { 
         switch (dir) { 
             case LEFT: 
-                 //TODO: what happens when a snake is moving left? 
+                 //WORKING: what happens when a snake is moving left? 
                  //Hint: you may need to use removeTail and addToHead method.
                  //But before you call addToHead method, you need to define some parameter(s)
                  //for the new head.
-            	
+            	snakeHeadCol = snakeHeadCol - 1;
+            	addToHead();
                  break; 
             case RIGHT: 
-                 //TODO: what happens when a snake is moving right? 
+                 //WORKING: what happens when a snake is moving right? 
+            	snakeHeadCol = snakeHeadCol + 1;
+            	addToHead();
                  break; 
             case UP: 
-                 //TODO: what happens when a snake is moving up? 
+            	snakeHeadRow = snakeHeadRow - 1;
+            	addToHead();
                  break; 
             case DOWN: 
-                 //TODO: what happens when a snake is moving down? 
+                 //WORKING: what happens when a snake is moving down? 
+            	snakeHeadRow= snakeHeadRow + 1;
+            	addToHead();
                  break; 
         } 
     }
 
-    //TODO: remove the tail.
+    //TESTING: remove the tail.
     //You need to consider the case when the snake has one, two, or more nodes
     //before the tail is to be removed.
     //In some cases, the head may be affected.
     //Method removeTail is called by method move. 
     private void removeTail() {
+    	yard.getChildren().remove(snake.getTail());
     }
 
-    //TODO: add to the head.
+    //FINISHED: add to the head.
     //Method addToHead is called by method move.
     //Do not forget to add the head (a rectangle object) to yard (a pane).
     //Otherwise, you do not see the head in the screen.
     private void addToHead() {
         //Add a new node in front of the head, that new node becomes the new head.
         //The location of new head depends the moving direction.
+    	Rectangle newHead = new Rectangle();
+    	newHead.setFill(Color.PURPLE);
+    	newHead.setLayoutY((snakeHeadRow + snakeHeadRow )* (BLOCK_SIZE/2));
+    	newHead.setLayoutX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
+    	newHead.setHeight(BLOCK_SIZE);
+    	newHead.setWidth(BLOCK_SIZE);
+    	body.add(newHead);
+    	yard.getChildren().add(newHead);
     }
 
     //TODO: add to the tail.
