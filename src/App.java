@@ -253,7 +253,7 @@ public class App extends Application {
         return null;
     }
 
-    //working: you finish defining the method.
+    //done: you finish defining the method.
     public Rectangle leftBodyNode() {
     	 Rectangle node;
          int currRow, currCol;
@@ -271,7 +271,7 @@ public class App extends Application {
          return null;
     }
 
-    //TODO: you finish defining the method.
+    //done: you finish defining the method.
     public Rectangle upBodyNode() {
     	Rectangle node;
         int currRow, currCol;
@@ -289,7 +289,7 @@ public class App extends Application {
         return null;
     }
 
-    //TODO: you finish defining the method.
+    //done: you finish defining the method.
     public Rectangle downBodyNode() {
     	Rectangle node;
         int currRow, currCol;
