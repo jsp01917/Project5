@@ -284,10 +284,7 @@ public class App extends Application {
     public Rectangle upBodyNode() {
     	Rectangle node;
         int currRow, currCol;
-        System.out.println("snakeHeadRow " + snakeHeadRow + " Snake head column " + snakeHeadCol);
-        System.out.println(body.size());
         for (int i = 2; i < body.size(); i++) { 
-        	System.out.println("why the fuck...");
             node = body.get(i);
           
             currRow = (int)(node.getY()/BLOCK_SIZE);
@@ -384,33 +381,38 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
-    	//System.out.println("x: " + head.getX() + "y: " + head.getY());
-    	System.out.println(isEggNextToSnakeHead());
         switch (dir) { 
             case LEFT: 
                  //WORKING: what happens when a snake is moving left? 
                  //Hint: you may need to use removeTail and addToHead method.
                  //But before you call addToHead method, you need to define some parameter(s)
                  //for the new head.
-            	snakeHeadCol = snakeHeadCol - 1;
+            	snakeHeadCol -= 1;
+            	snakeTailCol -= 1;
+            	System.out.println(snake.getHead().getX());
+            	snake.getHead().setX(snake.getHead().getX() - BLOCK_SIZE);
             	removeTail();
             	addToHead();
                  break; 
             case RIGHT: 
                  //WORKING: what happens when a snake is moving right? 
             	
-            	snakeHeadCol = snakeHeadCol + 1;
+            	snakeHeadCol += 1;
+            	snakeTailCol += 1;
+            	snake.getHead().setX(snake.getHead().getX() + 1);
             	removeTail();
             	addToHead();
                  break; 
             case UP: 
-            	snakeHeadRow = snakeHeadRow - 1;
+            	snakeHeadRow -= 1;
+            	snakeTailRow -= 1;
             	removeTail();
             	addToHead();
                  break; 
             case DOWN: 
                  //WORKING: what happens when a snake is moving down? 
-            	snakeHeadRow= snakeHeadRow + 1;
+            	snakeHeadRow += 1;
+            	snakeTailRow -= 1;
             	removeTail();
             	addToHead();
                  break; 
