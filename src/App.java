@@ -1,11 +1,4 @@
-/*import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-*/
-//In directory src,
-//Compile: mvn package
-//Run: java -cp target/snake-1.0-SNAPSHOT.jar edu.uga.cs1302.App
+
 
 //TODO: (this is optional) choose an algorithm to make the snake move automatically.
 import javafx.application.Application;
@@ -70,7 +63,8 @@ public class App extends Application {
 
         snake = new Snake();
         body = snake.getBody();
-
+        head = snake.getHead();
+        
         rand = new Random();
 
         //Let the snake start at a random place in the grid.
@@ -152,7 +146,7 @@ public class App extends Application {
                          //The snake may also hit the right wall.
                          //If none of the above happens, move the snake to the right.
                     	if (invalidMoveDirection() == Direction.RIGHT){
-                            issueWarning("Bite the neck.");
+                            issueWarning("Bit the neck.");
                            }
 
                          if (rightBodyNode() != null){
@@ -317,6 +311,9 @@ public class App extends Application {
            else return Direction.DOWN;
         }
         else {
+        	System.out.println(size);
+        	System.out.println(snakeHeadCol);
+        	System.out.println(neckNodeCol);
               if (snakeHeadCol == neckNodeCol +1) //the snake is heading right
                  return Direction.LEFT; 
               else return Direction.RIGHT;
@@ -369,13 +366,12 @@ public class App extends Application {
     private void addToHead() {
         //Add a new node in front of the head, that new node becomes the new head.
         //The location of new head depends the moving direction.
-    	Rectangle newHead = new Rectangle();
+    	Rectangle newHead = snake.getHead();
     	newHead.setFill(Color.PURPLE);
     	newHead.setLayoutY((snakeHeadRow + snakeHeadRow )* (BLOCK_SIZE/2));
     	newHead.setLayoutX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
-    	body.add(newHead);
     	yard.getChildren().add(newHead);
     }
 
@@ -383,6 +379,12 @@ public class App extends Application {
     //This method is being called when the snake eat an egg
     //and a new segment is added to its tail.
     private void addToTail() {
+    	Rectangle newBodyPiece = new Rectangle();
+    	newBodyPiece.setHeight(BLOCK_SIZE);
+    	newBodyPiece.setWidth(BLOCK_SIZE);
+    	newBodyPiece.setFill(Color.YELLOW);
+    	
+    	
     }
 
     public void drawGrid(Canvas canvas) {
