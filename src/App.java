@@ -272,18 +272,57 @@ public class App extends Application {
         return null;
     }
 
-    //TODO: you finish defining the method.
+    //working: you finish defining the method.
     public Rectangle leftBodyNode() {
-        return null;
+    	 Rectangle node;
+         int currRow, currCol;
+         for (int i = 2; i < body.size(); i++) { 
+             node = body.get(i);
+           
+             currRow = (int)(node.getY()/BLOCK_SIZE);
+             currCol = (int)(node.getX()/BLOCK_SIZE); 
+             
+             if (snakeHeadRow == currRow && snakeHeadCol -1 == currCol){
+                return node; 
+                }
+         }
+
+         return null;
     }
 
     //TODO: you finish defining the method.
     public Rectangle upBodyNode() {
-       return null;
+    	Rectangle node;
+        int currRow, currCol;
+        for (int i = 2; i < body.size(); i++) { 
+            node = body.get(i);
+          
+            currRow = (int)(node.getY()/BLOCK_SIZE);
+            currCol = (int)(node.getX()/BLOCK_SIZE); 
+            
+            if (snakeHeadRow + 1 == currRow && snakeHeadCol  == currCol){
+               return node; 
+               }
+        }
+
+        return null;
     }
 
     //TODO: you finish defining the method.
     public Rectangle downBodyNode() {
+    	Rectangle node;
+        int currRow, currCol;
+        for (int i = 2; i < body.size(); i++) { 
+            node = body.get(i);
+          
+            currRow = (int)(node.getY()/BLOCK_SIZE);
+            currCol = (int)(node.getX()/BLOCK_SIZE); 
+            
+            if (snakeHeadRow -1 == currRow && snakeHeadCol == currCol){
+               return node; 
+               }
+        }
+
         return null;
     }
 
