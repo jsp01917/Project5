@@ -65,12 +65,22 @@ public class App extends Application {
         body = snake.getBody();
         head = snake.getHead();
         
+        
+        
         rand = new Random();
-
+        
+        head.setFill(Color.PURPLE);
+        head.setWidth(BLOCK_SIZE);
+        head.setHeight(BLOCK_SIZE);
         //Let the snake start at a random place in the grid.
-        snakeTailRow = snakeHeadRow = rand.nextInt(NUM_COLS-2) +1; //Do not start with position next to the wall
-        snakeTailCol = snakeHeadCol = rand.nextInt(NUM_ROWS-2) +1; //Do not start with position next to the wall
-        addToHead(); //You need to implement this method to see the snake
+        snakeTailRow = snakeHeadRow = rand.nextInt(NUM_COLS-2) + 1; //Do not start with position next to the wall
+        snakeTailCol = snakeHeadCol = rand.nextInt(NUM_ROWS-2) + 1; //Do not start with position next to the wall
+        head.setX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
+    	head.setY((snakeHeadRow + snakeHeadRow)* (BLOCK_SIZE/2));
+        yard.getChildren().add(head);
+     
+        
+        
         numEggsEaten = 0;
     }
 
@@ -157,7 +167,8 @@ public class App extends Application {
                          if(head.getX()/BLOCK_SIZE==NUM_COLS){
                         	 issueWarning("Ran Into right wall");
                          }
-                         move(Direction.RIGHT); 
+                         move(Direction.RIGHT);
+                    
                          
                          break;
 
@@ -371,21 +382,25 @@ public class App extends Application {
                  //But before you call addToHead method, you need to define some parameter(s)
                  //for the new head.
             	snakeHeadCol = snakeHeadCol - 1;
+            	removeTail();
             	addToHead();
                  break; 
             case RIGHT: 
                  //WORKING: what happens when a snake is moving right? 
-            	System.out.println("moving right now~!");
+            	
             	snakeHeadCol = snakeHeadCol + 1;
+            	removeTail();
             	addToHead();
                  break; 
             case UP: 
             	snakeHeadRow = snakeHeadRow - 1;
+            	removeTail();
             	addToHead();
                  break; 
             case DOWN: 
                  //WORKING: what happens when a snake is moving down? 
             	snakeHeadRow= snakeHeadRow + 1;
+            	removeTail();
             	addToHead();
                  break; 
         } 
@@ -397,7 +412,7 @@ public class App extends Application {
     //In some cases, the head may be affected.
     //Method removeTail is called by method move. 
     private void removeTail() {
-    	yard.getChildren().remove(snake.getTail());
+    		yard.getChildren().remove(snake.getTail());
     }
 
     //FINISHED: add to the head.
@@ -407,12 +422,13 @@ public class App extends Application {
     private void addToHead() {
         //Add a new node in front of the head, that new node becomes the new head.
         //The location of new head depends the moving direction.
-    	Rectangle newHead = snake.getHead();
+    	Rectangle newHead = new Rectangle();
     	newHead.setFill(Color.PURPLE);
-    	newHead.setLayoutY((snakeHeadRow + snakeHeadRow )* (BLOCK_SIZE/2));
-    	newHead.setLayoutX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
+    	newHead.setX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
+    	newHead.setY((snakeHeadRow + snakeHeadRow)* (BLOCK_SIZE/2));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
+    	snake.getBody().add(newHead);
     	yard.getChildren().add(newHead);
     }
 
@@ -424,6 +440,7 @@ public class App extends Application {
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
+    	
     	
     	
     }
