@@ -300,20 +300,20 @@ public class App extends Application {
 
         return null;
     }
-
+    //NEEDS TESTING	
     private void eatEgg() {
         if ( isEggNextToSnakeHead() ) {
            if (snakeTailRow +1 < NUM_ROWS-1) { //try to add new tail to down direction
-              //TODO: attach a new node to the down direction of current tail 
+              addToTail();
            }
            else if (snakeTailRow -1 > 0) { //try to add new tail from up direction 
-                   //TODO: attach a new node to the up direction of current tail 
+        	   addToTail();
                 }
                 else if (snakeTailCol +1 < NUM_COLS-1) { //try to add new tail from right position
-                        //TODO: attach a new node to the right of current tail 
+                	addToTail(); 
                      }
                      else if (snakeTailCol -1 > 0) { //try to add new tail from left position
-                             //TODO: attach a new node to the left of current tail 
+                    	 addToTail(); 
                           } 
                           else issueWarning("The snake cannot grow without touching a wall. Game over.");
           
@@ -414,7 +414,7 @@ public class App extends Application {
     	yard.getChildren().add(newHead);
     }
 
-    //TODO: add to the tail.
+    //DONE NEEDS TESTING: add to the tail.
     //This method is being called when the snake eat an egg
     //and a new segment is added to its tail.
     private void addToTail() {
@@ -422,8 +422,10 @@ public class App extends Application {
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
-    	
-    	
+    	newBodyPiece.setLayoutY((snakeTailRow + snakeTailRow )* (BLOCK_SIZE/2));
+    	newBodyPiece.setLayoutX((snakeTailCol + snakeTailCol) * (BLOCK_SIZE/2));
+    	snake.getBody().add(snake.getBody().size()-1, newBodyPiece);
+    	yard.getChildren().add(newBodyPiece);
     }
 
     public void drawGrid(Canvas canvas) {
