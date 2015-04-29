@@ -1,11 +1,4 @@
-/*import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-*/
-//In directory src,
-//Compile: mvn package
-//Run: java -cp target/snake-1.0-SNAPSHOT.jar edu.uga.cs1302.App
+
 
 //TODO: (this is optional) choose an algorithm to make the snake move automatically.
 import javafx.application.Application;
@@ -70,7 +63,8 @@ public class App extends Application {
 
         snake = new Snake();
         body = snake.getBody();
-
+        head = snake.getHead();
+        
         rand = new Random();
 
         //Let the snake start at a random place in the grid.
@@ -126,37 +120,77 @@ public class App extends Application {
                          //Call invalidMoveDirection Method to detect case
                          //when the neck is to the left of the head,
                          //then the snake cannot move to the left.
-                         if (invalidMoveDirection() == Direction.LEFT)
+                         if (invalidMoveDirection() == Direction.LEFT){
                             issueWarning("Bite the neck.");
+                           }
                         
                          //Call leftBodyNode method to find out whether 
                          //there is a left node next to the mouth.
-                         if (leftBodyNode() != null)
+                         if (leftBodyNode() != null){
                             issueWarning("Bite a left node.");
-
-                         move(Direction.LEFT); 
-
-                         //TODO: write a if-statement to find out
+                            }
+                         
+                       //Done: write a if-statement to find out
                          //when the snake hits the left wall.
-
+                         if(head.getX()/BLOCK_SIZE==0){
+                        	 issueWarning("Ran Into Left wall");
+                         }
+                         move(Direction.LEFT); 
+                         
                          break;
 
                     case RIGHT:
-                         //TODO: what happens if right arrow key pressed?
+                         //DONE: what happens if right arrow key pressed?
                          //The snake may bite its own neck.
                          //The snake may also bite a body node to its right.
                          //The snake may also hit the right wall.
                          //If none of the above happens, move the snake to the right.
+                    	if (invalidMoveDirection() == Direction.RIGHT){
+                            issueWarning("Bit the neck.");
+                           }
 
+                         if (rightBodyNode() != null){
+                            issueWarning("Bite a right node.");
+                            }
+                         
+               
+                         if(head.getX()/BLOCK_SIZE==NUM_COLS){
+                        	 issueWarning("Ran Into right wall");
+                         }
+                         move(Direction.RIGHT); 
+                         
                          break;
 
                     case UP:
-                         //TODO: handle the case when the up arrow key is pressed. 
+                    	if (invalidMoveDirection() == Direction.UP){
+                            issueWarning("Bite the neck.");
+                           }
+                     
+                         if (upBodyNode() != null){
+                            issueWarning("Bite a Up node.");
+                            }
+                         
+                         if(head.getY()/BLOCK_SIZE==0){
+                        	 issueWarning("Ran Into Up wall");
+                         }
+                         move(Direction.UP); 
 
                          break;
 
                     case DOWN:
-                         //TODO: handle the case when the down arrow key is pressed. 
+                         //DONE: handle the case when the down arrow key is pressed. 
+                    	if (invalidMoveDirection() == Direction.DOWN){
+                            issueWarning("Bite the neck.");
+                           }
+                     
+                         if (downBodyNode() != null){
+                            issueWarning("Bite a down node.");
+                            }
+                         
+                         if(head.getY()/BLOCK_SIZE==NUM_ROWS){
+                        	 issueWarning("Ran Into down wall");
+                         }
+                         move(Direction.DOWN); 
 
                          break; 
                 }
@@ -277,6 +311,9 @@ public class App extends Application {
            else return Direction.DOWN;
         }
         else {
+        	System.out.println(size);
+        	System.out.println(snakeHeadCol);
+        	System.out.println(neckNodeCol);
               if (snakeHeadCol == neckNodeCol +1) //the snake is heading right
                  return Direction.LEFT; 
               else return Direction.RIGHT;
@@ -343,6 +380,12 @@ public class App extends Application {
     //This method is being called when the snake eat an egg
     //and a new segment is added to its tail.
     private void addToTail() {
+    	Rectangle newBodyPiece = new Rectangle();
+    	newBodyPiece.setHeight(BLOCK_SIZE);
+    	newBodyPiece.setWidth(BLOCK_SIZE);
+    	newBodyPiece.setFill(Color.YELLOW);
+    	
+    	
     }
 
     public void drawGrid(Canvas canvas) {
