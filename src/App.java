@@ -324,7 +324,8 @@ public class App extends Application {
     private void eatEgg() {
         if ( isEggNextToSnakeHead() ) {
            if (snakeTailRow +1 < NUM_ROWS-1) { //try to add new tail to down direction
-              //TODO: attach a new node to the down direction of current tail 
+              snakeTailRow += 1;
+              addToTail();
            }
            else if (snakeTailRow -1 > 0) { //try to add new tail from up direction 
                    //TODO: attach a new node to the up direction of current tail 
@@ -340,8 +341,8 @@ public class App extends Application {
            //report the number of eggs eaten
            numEggsEaten++;
            scoreTextField.setText("Eat " + numEggsEaten + " eggs; snake size: " + body.size());
-           if (numEggsEaten != body.size() -1) //This is to verify the correctness of our code
-              issueWarning("egg eaten != body size -1.");
+           //if (numEggsEaten != body.size() -1) //This is to verify the correctness of our code
+              //issueWarning("egg eaten != body size -1.");
 
            putEgg();
         }
@@ -384,6 +385,7 @@ public class App extends Application {
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
     	//System.out.println("x: " + head.getX() + "y: " + head.getY());
+    	System.out.println(isEggNextToSnakeHead());
         switch (dir) { 
             case LEFT: 
                  //WORKING: what happens when a snake is moving left? 
@@ -421,7 +423,6 @@ public class App extends Application {
     //In some cases, the head may be affected.
     //Method removeTail is called by method move. 
     private void removeTail() {
-    		
     		yard.getChildren().remove(snake.getTail());
     		snake.getBody().remove(snake.getTail());
     }
@@ -451,7 +452,10 @@ public class App extends Application {
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
-    	
+    	newBodyPiece.setX((snakeTailCol + snakeTailCol) * (BLOCK_SIZE/2)); 
+    	newBodyPiece.setY((snakeTailRow + snakeTailRow) * (BLOCK_SIZE/2)); 
+    	snake.getBody().add(newBodyPiece);
+    	yard.getChildren().add(newBodyPiece);
     	
     	
     }
@@ -492,12 +496,35 @@ public class App extends Application {
 
     //TODO: see whether the egg is to the left, right, up, or down of the snake head.
     public boolean isEggNextToSnakeHead() {
-        return false; //TODO: You need to modify this statement.
+    	System.out.println("col: " + snakeHeadCol + " + " + eggCol);
+    	System.out.println("row: " + snakeHeadRow + " + " + eggRow);
+        if (snakeHeadCol == eggCol && snakeHeadRow == eggRow -1){
+        	return true;
+        }
+        else if (snakeHeadCol == eggCol && snakeHeadRow == eggRow +1){
+        	return true;
+        }
+        else if (snakeHeadCol == eggCol-1 && snakeHeadRow == eggRow ){
+        	return true;
+        }
+        else if (snakeHeadCol == eggCol+1 && snakeHeadRow == eggRow){
+        	return true;
+        }
+        else {
+        	return false;
+        }
     }
 
     //TODO: the egg cannot collide with the nodes of the body of the snake.
     public boolean isEggOnSnake(int eggRow, int eggCol) {
-        return false; //TODO: you need to add more to this method.
+    	for (int i = 0; i < body.size(); i++){
+    		if ((int) snake.getBody().get(i).getX() == eggRow && (int) snake.getBody().get(i).getY() == eggCol){
+    			return true;
+    		}
+    	}
+    		return false;
+    	
+       
     }
 
     private void issueWarning(String message) {
