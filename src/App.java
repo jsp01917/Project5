@@ -324,6 +324,7 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
+    	System.out.println("x: " + head.getX() + "y: " + head.getY());
         switch (dir) { 
             case LEFT: 
                  //WORKING: what happens when a snake is moving left? 
