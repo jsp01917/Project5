@@ -298,6 +298,7 @@ public class App extends Application {
                  break; 
             case RIGHT: 
                  //WORKING: what happens when a snake is moving right? 
+            	System.out.println("moving right now~!");
             	snakeHeadCol = snakeHeadCol + 1;
             	addToHead();
                  break; 
@@ -329,13 +330,12 @@ public class App extends Application {
     private void addToHead() {
         //Add a new node in front of the head, that new node becomes the new head.
         //The location of new head depends the moving direction.
-    	Rectangle newHead = new Rectangle();
+    	Rectangle newHead = snake.getHead();
     	newHead.setFill(Color.PURPLE);
     	newHead.setLayoutY((snakeHeadRow + snakeHeadRow )* (BLOCK_SIZE/2));
     	newHead.setLayoutX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
-    	body.add(newHead);
     	yard.getChildren().add(newHead);
     }
 
