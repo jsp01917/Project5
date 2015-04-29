@@ -10,11 +10,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.BorderPane;
+
 import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.TextField;
+
 import java.util.Random;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
@@ -280,11 +284,16 @@ public class App extends Application {
     public Rectangle upBodyNode() {
     	Rectangle node;
         int currRow, currCol;
+        System.out.println("snakeHeadRow " + snakeHeadRow + " Snake head column " + snakeHeadCol);
+        System.out.println(body.size());
         for (int i = 2; i < body.size(); i++) { 
+        	System.out.println("why the fuck...");
             node = body.get(i);
           
             currRow = (int)(node.getY()/BLOCK_SIZE);
             currCol = (int)(node.getX()/BLOCK_SIZE); 
+            System.out.println(currRow + " " + currCol);
+            System.out.println(snakeHeadRow + " " + snakeHeadCol);
             
             if (snakeHeadRow + 1 == currRow && snakeHeadCol  == currCol){
                return node; 
@@ -374,7 +383,7 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
-    	System.out.println("x: " + head.getX() + "y: " + head.getY());
+    	//System.out.println("x: " + head.getX() + "y: " + head.getY());
         switch (dir) { 
             case LEFT: 
                  //WORKING: what happens when a snake is moving left? 
@@ -412,7 +421,9 @@ public class App extends Application {
     //In some cases, the head may be affected.
     //Method removeTail is called by method move. 
     private void removeTail() {
+    		
     		yard.getChildren().remove(snake.getTail());
+    		snake.getBody().remove(snake.getTail());
     }
 
     //FINISHED: add to the head.
