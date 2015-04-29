@@ -146,7 +146,9 @@ public class App extends Application {
                          
                        //Done: write a if-statement to find out
                          //when the snake hits the left wall.
-                         if(head.getX()/BLOCK_SIZE==0){
+                         System.out.println(head.getX());
+                         if((int)head.getX()/BLOCK_SIZE==0){
+                        	 System.out.println("fucking fuckity fuck");
                         	 issueWarning("Ran Into Left wall");
                          }
                          move(Direction.LEFT); 
@@ -381,6 +383,8 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
+    	double tempX =snake.getHead().getX();
+    	double tempY = snake.getHead().getY();
         switch (dir) { 
             case LEFT: 
                  //WORKING: what happens when a snake is moving left? 
@@ -389,30 +393,30 @@ public class App extends Application {
                  //for the new head.
             	snakeHeadCol -= 1;
             	snakeTailCol -= 1;
-            	System.out.println(snake.getHead().getX());
-            	snake.getHead().setX(snake.getHead().getX() - BLOCK_SIZE);
+            	snake.getHead().setX(tempX - BLOCK_SIZE);
             	removeTail();
             	addToHead();
                  break; 
             case RIGHT: 
-                 //WORKING: what happens when a snake is moving right? 
-            	
+                 //WORKING: what happens when a snake is moving right?             	
             	snakeHeadCol += 1;
             	snakeTailCol += 1;
-            	snake.getHead().setX(snake.getHead().getX() + 1);
+            	snake.getHead().setX(tempX + BLOCK_SIZE);
             	removeTail();
             	addToHead();
                  break; 
             case UP: 
             	snakeHeadRow -= 1;
             	snakeTailRow -= 1;
+            	snake.getHead().setY(tempY - BLOCK_SIZE);
             	removeTail();
             	addToHead();
                  break; 
             case DOWN: 
                  //WORKING: what happens when a snake is moving down? 
             	snakeHeadRow += 1;
-            	snakeTailRow -= 1;
+            	snakeTailRow += 1;
+            	snake.getHead().setY(tempY + BLOCK_SIZE);
             	removeTail();
             	addToHead();
                  break; 
@@ -438,8 +442,8 @@ public class App extends Application {
         //The location of new head depends the moving direction.
     	Rectangle newHead = new Rectangle();
     	newHead.setFill(Color.PURPLE);
-    	newHead.setX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
-    	newHead.setY((snakeHeadRow + snakeHeadRow)* (BLOCK_SIZE/2));
+    	newHead.setX((snakeHeadCol) * (BLOCK_SIZE));
+    	newHead.setY((snakeHeadRow)* (BLOCK_SIZE));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
     	snake.getBody().add(newHead);
@@ -454,8 +458,8 @@ public class App extends Application {
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
-    	newBodyPiece.setX((snakeTailCol + snakeTailCol) * (BLOCK_SIZE/2)); 
-    	newBodyPiece.setY((snakeTailRow + snakeTailRow) * (BLOCK_SIZE/2)); 
+    	newBodyPiece.setX((snakeTailCol ) * (BLOCK_SIZE)); 
+    	newBodyPiece.setY((snakeTailRow) * (BLOCK_SIZE)); 
     	snake.getBody().add(newBodyPiece);
     	yard.getChildren().add(newBodyPiece);
     	
@@ -498,8 +502,7 @@ public class App extends Application {
 
     //TODO: see whether the egg is to the left, right, up, or down of the snake head.
     public boolean isEggNextToSnakeHead() {
-    	System.out.println("col: " + snakeHeadCol + " + " + eggCol);
-    	System.out.println("row: " + snakeHeadRow + " + " + eggRow);
+
         if (snakeHeadCol == eggCol && snakeHeadRow == eggRow -1){
         	return true;
         }
