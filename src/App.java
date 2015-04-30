@@ -290,8 +290,6 @@ public class App extends Application {
           
             currRow = (int)(node.getY()/BLOCK_SIZE);
             currCol = (int)(node.getX()/BLOCK_SIZE); 
-            System.out.println(currRow + " " + currCol);
-            System.out.println(snakeHeadRow + " " + snakeHeadCol);
             
             if (snakeHeadRow + 1 == currRow && snakeHeadCol  == currCol){
                return node; 
@@ -368,11 +366,16 @@ public class App extends Application {
         //If the snake is heading down,
         //then Direction.UP would be invalid for the snake,
         //otherwise, the snake is going to bite its own neck.
+        System.out.println("Snake head row: " + snakeHeadRow + "Neck Node: " + neckNodeRow);
+        System.out.println("Snake head col: " + snakeHeadCol + "Neck Node: " + neckNodeCol);
         if (neckNodeCol == snakeHeadCol) {
            //if the snake is heading down, then it cannot move up or the neck is bitten.
            if (snakeHeadRow == neckNodeRow +1) 
               return Direction.UP; 
-           else return Direction.DOWN;
+           else {
+        	   return Direction.DOWN;
+           
+           }
         }
         else {
               if (snakeHeadCol == neckNodeCol +1) //the snake is heading right
@@ -385,7 +388,6 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
-    	
     	double tempx = snake.getHead().getX();
     	double tempy = snake.getHead().getY();
     	head = snake.getHead();
@@ -396,8 +398,9 @@ public class App extends Application {
                  //But before you call addToHead method, you need to define some parameter(s)
                  //for the new head.
             	snakeHeadCol -= 1;
-            	snakeTailCol -= 1;
-            	//System.out.println(snake.getHead().getX());
+            	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
+            	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
+            	
             	snake.getHead().setX(tempx - BLOCK_SIZE);
             	removeTail();
             	addToHead();
@@ -406,14 +409,18 @@ public class App extends Application {
                  //WORKING: what happens when a snake is moving right? 
             	
             	snakeHeadCol += 1;
-            	snakeTailCol += 1;
+            	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
+            	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setX(tempx + BLOCK_SIZE);
+            	
+            	
             	removeTail();
             	addToHead();
                  break; 
             case UP: 
             	snakeHeadRow -= 1;
-            	snakeTailRow -= 1;
+            	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
+            	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy - BLOCK_SIZE);
             	removeTail();
             	addToHead();
@@ -421,15 +428,15 @@ public class App extends Application {
             case DOWN: 
                  //WORKING: what happens when a snake is moving down? 
             	snakeHeadRow += 1;
-            	snakeTailRow += 1;
+            	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
+            	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy + BLOCK_SIZE);
+            	
             	removeTail();
             	addToHead();
                  break; 
         } 
-        System.out.println("Head: Col: " + snakeHeadCol + " Row: " + snakeHeadRow);
-    	System.out.println("Tail: Col: " + snakeTailCol + " Row: " + snakeTailRow);
-    	System.out.println(head.getX());
+
     }
 
     //TESTING: remove the tail.
@@ -464,12 +471,12 @@ public class App extends Application {
     //and a new segment is added to its tail.
     private void addToTail() {
     	Rectangle newBodyPiece = new Rectangle();
-    	snake.getBody().add(newBodyPiece);
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
     	newBodyPiece.setX((snakeTailCol) * (BLOCK_SIZE)); 
     	newBodyPiece.setY((snakeTailRow) * (BLOCK_SIZE)); 
+    	snake.getBody().add(newBodyPiece);
     	yard.getChildren().add(newBodyPiece);
     	
     	
