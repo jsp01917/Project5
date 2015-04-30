@@ -212,7 +212,7 @@ public class App extends Application {
                 }
 
                 //Check whether the snake can eat the egg after the movement.
-                eatEgg();
+                //eatEgg();
            }
         });
     }
@@ -320,7 +320,7 @@ public class App extends Application {
     private void eatEgg() {
         if ( isEggNextToSnakeHead() ) {
            if (snakeTailRow +1 < NUM_ROWS-1) { //try to add new tail to down direction
-               snakeTailRow += 1;
+              
         	   addToTail();
            }
            else if (snakeTailRow -1 > 0) { //try to add new tail from up direction 
@@ -345,7 +345,8 @@ public class App extends Application {
            scoreTextField.setText("Eat " + numEggsEaten + " eggs; snake size: " + body.size());
            //if (numEggsEaten != body.size() -1) //This is to verify the correctness of our code
               //issueWarning("egg eaten != body size -1.");
-
+           System.out.println("col " + snakeHeadCol + " row " + snakeHeadRow);
+           System.out.println("col " + snakeTailCol + " row " + snakeTailRow);
            putEgg();
         }
     }
@@ -366,8 +367,6 @@ public class App extends Application {
         //If the snake is heading down,
         //then Direction.UP would be invalid for the snake,
         //otherwise, the snake is going to bite its own neck.
-        System.out.println("Snake head row: " + snakeHeadRow + "Neck Node: " + neckNodeRow);
-        System.out.println("Snake head col: " + snakeHeadCol + "Neck Node: " + neckNodeCol);
         if (neckNodeCol == snakeHeadCol) {
            //if the snake is heading down, then it cannot move up or the neck is bitten.
            if (snakeHeadRow == neckNodeRow +1) 
@@ -388,6 +387,7 @@ public class App extends Application {
     //INPROGRESS: possibly finished? needs to be tested.
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
+    	
     	double tempx = snake.getHead().getX();
     	double tempy = snake.getHead().getY();
     	head = snake.getHead();
@@ -402,8 +402,14 @@ public class App extends Application {
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	
             	snake.getHead().setX(tempx - BLOCK_SIZE);
-            	removeTail();
             	addToHead();
+            	if (!isEggNextToSnakeHead()){
+            		removeTail();
+            	}
+            	else {
+            		putEgg();
+            	}
+            	
                  break; 
             case RIGHT: 
                  //WORKING: what happens when a snake is moving right? 
@@ -413,17 +419,28 @@ public class App extends Application {
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setX(tempx + BLOCK_SIZE);
             	
-            	
-            	removeTail();
             	addToHead();
+            	if (!isEggNextToSnakeHead()){
+            		removeTail();
+            	}
+            	else {
+            		putEgg();
+            	}
+            	
                  break; 
             case UP: 
             	snakeHeadRow -= 1;
             	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy - BLOCK_SIZE);
-            	removeTail();
             	addToHead();
+            	if (!isEggNextToSnakeHead()){
+            		removeTail();
+            	}
+            	else {
+            		putEgg();
+            	}
+            	
                  break; 
             case DOWN: 
                  //WORKING: what happens when a snake is moving down? 
@@ -431,9 +448,14 @@ public class App extends Application {
             	snakeTailCol = (int) (body.get(snake.getBody().size() - 1).getX() / BLOCK_SIZE);
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy + BLOCK_SIZE);
-            	
-            	removeTail();
             	addToHead();
+            	if (!isEggNextToSnakeHead()){
+            		removeTail();
+            	}
+            	else {
+            		putEgg();
+            	}
+            	
                  break; 
         } 
 
