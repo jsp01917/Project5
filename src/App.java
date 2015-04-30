@@ -165,7 +165,7 @@ public class App extends Application {
                             }
                          
                
-                         if(head.getX()/BLOCK_SIZE==NUM_COLS){
+                         if(head.getX()/BLOCK_SIZE==NUM_COLS -1){
                         	 issueWarning("Ran Into right wall");
                          }
                          move(Direction.RIGHT); 
@@ -189,6 +189,7 @@ public class App extends Application {
                          break;
 
                     case DOWN:
+                    	System.out.println(head.getY()/BLOCK_SIZE);
                          //DONE: handle the case when the down arrow key is pressed. 
                     	if (invalidMoveDirection() == Direction.DOWN){
                             issueWarning("Bite the neck.");
@@ -198,7 +199,7 @@ public class App extends Application {
                             issueWarning("Bite a down node.");
                             }
                          
-                         if(head.getY()/BLOCK_SIZE==NUM_ROWS){
+                         if(head.getY()/BLOCK_SIZE==NUM_ROWS - 1){
                         	 issueWarning("Ran Into down wall");
                          }
                          move(Direction.DOWN); 
@@ -318,6 +319,7 @@ public class App extends Application {
         if ( isEggNextToSnakeHead() ) {
            if (snakeTailRow +1 < NUM_ROWS-1) { //try to add new tail to down direction
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               snakeTailRow += 1;
 >>>>>>> james3
@@ -331,6 +333,25 @@ public class App extends Application {
                      }
                      else if (snakeTailCol -1 > 0) { //try to add new tail from left position
                     	 addToTail(); 
+=======
+               snakeTailRow += 1;
+        	   addToTail();
+           }
+           else if (snakeTailRow -1 > 0) { //try to add new tail from up direction 
+                   //TODO: attach a new node to the up direction of current tail 
+        	   snakeTailRow -= 1;
+        	   addToTail();
+                }
+                else if (snakeTailCol +1 < NUM_COLS-1) { //try to add new tail from right position
+                        //TODO: attach a new node to the right of current tail 
+                	snakeTailCol += 1;
+             	   addToTail();
+                     }
+                     else if (snakeTailCol -1 > 0) { //try to add new tail from left position
+                             //TODO: attach a new node to the left of current tail 
+                    	 snakeTailCol -= 1;
+                  	   		addToTail();
+>>>>>>> james3
                           } 
                           else issueWarning("The snake cannot grow without touching a wall. Game over.");
           
@@ -367,9 +388,6 @@ public class App extends Application {
            else return Direction.DOWN;
         }
         else {
-        	System.out.println(size);
-        	System.out.println(snakeHeadCol);
-        	System.out.println(neckNodeCol);
               if (snakeHeadCol == neckNodeCol +1) //the snake is heading right
                  return Direction.LEFT; 
               else return Direction.RIGHT;
@@ -381,9 +399,16 @@ public class App extends Application {
     //need to add check for ability to move in that direction
     public void move(Direction dir) { 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     	double tempX =snake.getHead().getX();
     	double tempY = snake.getHead().getY();
+>>>>>>> james3
+=======
+    	
+    	double tempx = snake.getHead().getX();
+    	double tempy = snake.getHead().getY();
+    	head = snake.getHead();
 >>>>>>> james3
         switch (dir) { 
             case LEFT: 
@@ -405,7 +430,12 @@ public class App extends Application {
 =======
             	snakeHeadCol -= 1;
             	snakeTailCol -= 1;
+<<<<<<< HEAD
             	snake.getHead().setX(tempX - BLOCK_SIZE);
+=======
+            	//System.out.println(snake.getHead().getX());
+            	snake.getHead().setX(tempx - BLOCK_SIZE);
+>>>>>>> james3
             	removeTail();
             	addToHead();
                  break; 
@@ -413,14 +443,22 @@ public class App extends Application {
                  //WORKING: what happens when a snake is moving right?             	
             	snakeHeadCol += 1;
             	snakeTailCol += 1;
+<<<<<<< HEAD
             	snake.getHead().setX(tempX + BLOCK_SIZE);
+=======
+            	snake.getHead().setX(tempx + BLOCK_SIZE);
+>>>>>>> james3
             	removeTail();
             	addToHead();
                  break; 
             case UP: 
             	snakeHeadRow -= 1;
             	snakeTailRow -= 1;
+<<<<<<< HEAD
             	snake.getHead().setY(tempY - BLOCK_SIZE);
+=======
+            	snake.getHead().setY(tempy - BLOCK_SIZE);
+>>>>>>> james3
             	removeTail();
 >>>>>>> james3
             	addToHead();
@@ -432,12 +470,19 @@ public class App extends Application {
 =======
             	snakeHeadRow += 1;
             	snakeTailRow += 1;
+<<<<<<< HEAD
             	snake.getHead().setY(tempY + BLOCK_SIZE);
+=======
+            	snake.getHead().setY(tempy + BLOCK_SIZE);
+>>>>>>> james3
             	removeTail();
 >>>>>>> james3
             	addToHead();
                  break; 
         } 
+        System.out.println("Head: Col: " + snakeHeadCol + " Row: " + snakeHeadRow);
+    	System.out.println("Tail: Col: " + snakeTailCol + " Row: " + snakeTailRow);
+    	System.out.println(head.getX());
     }
 
     //TESTING: remove the tail.
@@ -464,8 +509,13 @@ public class App extends Application {
     	Rectangle newHead = snake.getHead();
     	newHead.setFill(Color.PURPLE);
 <<<<<<< HEAD
+<<<<<<< HEAD
     	newHead.setLayoutY((snakeHeadRow + snakeHeadRow )* (BLOCK_SIZE/2));
     	newHead.setLayoutX((snakeHeadCol + snakeHeadCol) * (BLOCK_SIZE/2));
+=======
+    	newHead.setX((snakeHeadCol) * (BLOCK_SIZE));
+    	newHead.setY((snakeHeadRow)* (BLOCK_SIZE));
+>>>>>>> james3
 =======
     	newHead.setX((snakeHeadCol) * (BLOCK_SIZE));
     	newHead.setY((snakeHeadRow)* (BLOCK_SIZE));
@@ -480,9 +530,11 @@ public class App extends Application {
     //and a new segment is added to its tail.
     private void addToTail() {
     	Rectangle newBodyPiece = new Rectangle();
+    	snake.getBody().add(newBodyPiece);
     	newBodyPiece.setHeight(BLOCK_SIZE);
     	newBodyPiece.setWidth(BLOCK_SIZE);
     	newBodyPiece.setFill(Color.YELLOW);
+<<<<<<< HEAD
 <<<<<<< HEAD
     	newBodyPiece.setLayoutY((snakeTailRow + snakeTailRow )* (BLOCK_SIZE/2));
     	newBodyPiece.setLayoutX((snakeTailCol + snakeTailCol) * (BLOCK_SIZE/2));
@@ -492,6 +544,10 @@ public class App extends Application {
     	newBodyPiece.setX((snakeTailCol ) * (BLOCK_SIZE)); 
     	newBodyPiece.setY((snakeTailRow) * (BLOCK_SIZE)); 
     	snake.getBody().add(newBodyPiece);
+=======
+    	newBodyPiece.setX((snakeTailCol) * (BLOCK_SIZE)); 
+    	newBodyPiece.setY((snakeTailRow) * (BLOCK_SIZE)); 
+>>>>>>> james3
     	yard.getChildren().add(newBodyPiece);
     	
     	
@@ -534,7 +590,10 @@ public class App extends Application {
 
     //TODO: see whether the egg is to the left, right, up, or down of the snake head.
     public boolean isEggNextToSnakeHead() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> james3
         if (snakeHeadCol == eggCol && snakeHeadRow == eggRow -1){
         	return true;
         }
