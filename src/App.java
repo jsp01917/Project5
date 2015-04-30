@@ -135,13 +135,13 @@ public class App extends Application {
                          //when the neck is to the left of the head,
                          //then the snake cannot move to the left.
                          if (invalidMoveDirection() == Direction.LEFT){
-                            issueWarning("Bite the neck.");
+                            issueWarning("Bite the neckL.");
                            }
                         
                          //Call leftBodyNode method to find out whether 
                          //there is a left node next to the mouth.
                          if (leftBodyNode() != null){
-                            issueWarning("Bite a left node.");
+                           issueWarning("Bite a left node.");
                             }
                          
                        //Done: write a if-statement to find out
@@ -160,7 +160,7 @@ public class App extends Application {
                          //The snake may also hit the right wall.
                          //If none of the above happens, move the snake to the right.
                     	if (invalidMoveDirection() == Direction.RIGHT){
-                            issueWarning("Bit the neck.");
+                            issueWarning("Bit the neckR.");
                            }
 
                          if (rightBodyNode() != null){
@@ -178,7 +178,7 @@ public class App extends Application {
 
                     case UP:
                     	if (invalidMoveDirection() == Direction.UP){
-                            issueWarning("Bite the neck.");
+                            issueWarning("Bite the neckU.");
                            }
                      
                          if (upBodyNode() != null){
@@ -193,10 +193,10 @@ public class App extends Application {
                          break;
 
                     case DOWN:
-                    	System.out.println(head.getY()/BLOCK_SIZE);
+                    	
                          //DONE: handle the case when the down arrow key is pressed. 
                     	if (invalidMoveDirection() == Direction.DOWN){
-                            issueWarning("Bite the neck.");
+                            issueWarning("Bite the neckD.");
                            }
                      
                          if (downBodyNode() != null){
@@ -291,7 +291,7 @@ public class App extends Application {
             currRow = (int)(node.getY()/BLOCK_SIZE);
             currCol = (int)(node.getX()/BLOCK_SIZE); 
             
-            if (snakeHeadRow + 1 == currRow && snakeHeadCol  == currCol){
+            if (snakeHeadRow - 1 == currRow && snakeHeadCol  == currCol){
                return node; 
                }
         }
@@ -309,7 +309,7 @@ public class App extends Application {
             currRow = (int)(node.getY()/BLOCK_SIZE);
             currCol = (int)(node.getX()/BLOCK_SIZE); 
             
-            if (snakeHeadRow -1 == currRow && snakeHeadCol == currCol){
+            if (snakeHeadRow +1 == currRow && snakeHeadCol == currCol){
                return node; 
                }
         }
@@ -345,8 +345,7 @@ public class App extends Application {
            scoreTextField.setText("Eat " + numEggsEaten + " eggs; snake size: " + body.size());
            //if (numEggsEaten != body.size() -1) //This is to verify the correctness of our code
               //issueWarning("egg eaten != body size -1.");
-           System.out.println("col " + snakeHeadCol + " row " + snakeHeadRow);
-           System.out.println("col " + snakeTailCol + " row " + snakeTailRow);
+     
            putEgg();
         }
     }
@@ -355,13 +354,16 @@ public class App extends Application {
     //find out which moving direction is invalid.
     private Direction invalidMoveDirection() {
         int size = body.size();
-        if (size == 1)
+        if (size ==1||size==3){
            return null; //one node snake can move in anywhere
-
-        Rectangle neckNode = body.get(1);
+        }
+        Rectangle neckNode = body.get(2);
         int neckNodeCol = (int)(neckNode.getX() / BLOCK_SIZE);
         int neckNodeRow = (int)(neckNode.getY() / BLOCK_SIZE);
-
+        System.out.println("Nrow"+neckNodeRow);
+        System.out.println("Ncol"+neckNodeCol);
+        System.out.println("Hrow"+snakeHeadRow);
+        System.out.println("Hcol"+snakeHeadCol);
         //When the head and neck are in the same column,
         //the head is moving either up or down.
         //If the snake is heading down,
@@ -369,6 +371,7 @@ public class App extends Application {
         //otherwise, the snake is going to bite its own neck.
         if (neckNodeCol == snakeHeadCol) {
            //if the snake is heading down, then it cannot move up or the neck is bitten.
+        	
            if (snakeHeadRow == neckNodeRow +1) 
               return Direction.UP; 
            else {
@@ -403,11 +406,17 @@ public class App extends Application {
             	
             	snake.getHead().setX(tempx - BLOCK_SIZE);
             	addToHead();
-            	if (!isEggNextToSnakeHead()){
-            		removeTail();
+            	if (isEggNextToSnakeHead()){
+            		putEgg();
+            		numEggsEaten++;
+            	
+            		if(numEggsEaten==1){
+            			addToHead();
+            		}
             	}
             	else {
-            		putEgg();
+            		removeTail();
+            		
             	}
             	
                  break; 
@@ -420,11 +429,16 @@ public class App extends Application {
             	snake.getHead().setX(tempx + BLOCK_SIZE);
             	
             	addToHead();
-            	if (!isEggNextToSnakeHead()){
+            	if (!isEggNextToSnakeHead()){            		
             		removeTail();
             	}
             	else {
             		putEgg();
+            		numEggsEaten++;
+            		
+            		if(numEggsEaten==1){
+            			addToHead();
+            		}
             	}
             	
                  break; 
@@ -434,12 +448,18 @@ public class App extends Application {
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy - BLOCK_SIZE);
             	addToHead();
-            	if (!isEggNextToSnakeHead()){
+            	if (!isEggNextToSnakeHead()){            		
             		removeTail();
             	}
             	else {
             		putEgg();
+            		numEggsEaten++;
+          
+            		if(numEggsEaten==1){
+            			addToHead();
+            		}
             	}
+            	
             	
                  break; 
             case DOWN: 
@@ -449,16 +469,28 @@ public class App extends Application {
             	snakeTailRow = (int) (body.get(snake.getBody().size() - 1).getY() / BLOCK_SIZE);
             	snake.getHead().setY(tempy + BLOCK_SIZE);
             	addToHead();
-            	if (!isEggNextToSnakeHead()){
+            	if (!isEggNextToSnakeHead()){            		
             		removeTail();
             	}
             	else {
             		putEgg();
+            		numEggsEaten++;
+            		
+            		if(numEggsEaten==1){
+            			addToHead();
+            		}
             	}
+            	
             	
                  break; 
         } 
-
+        int temp =0;
+        if(body.size()==1){
+        	temp=1;
+        }else{
+        	temp=body.size()-1;
+        }
+        scoreTextField.setText("Eat " + numEggsEaten + " eggs; snake size: " + (temp));
     }
 
     //TESTING: remove the tail.
@@ -467,6 +499,7 @@ public class App extends Application {
     //In some cases, the head may be affected.
     //Method removeTail is called by method move. 
     private void removeTail() {
+    		System.out.println("called");
     		yard.getChildren().remove(snake.getTail());
     		snake.getBody().remove(snake.getTail());
     }
@@ -484,8 +517,10 @@ public class App extends Application {
     	newHead.setY((snakeHeadRow)* (BLOCK_SIZE));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
-    	snake.getBody().add(newHead);
+    	snake.getBody().add(0,newHead);
     	yard.getChildren().add(newHead);
+    	body.get(1).setFill(Color.YELLOW);
+    	body.get(1).setStroke(Color.RED);
     }
 
     //TODO: add to the tail.
@@ -560,7 +595,7 @@ public class App extends Application {
     //TODO: the egg cannot collide with the nodes of the body of the snake.
     public boolean isEggOnSnake(int eggRow, int eggCol) {
     	for (int i = 0; i < body.size(); i++){
-    		if ((int) snake.getBody().get(i).getX() == eggRow && (int) snake.getBody().get(i).getY() == eggCol){
+    		if ((int) snake.getBody().get(i).getX()/BLOCK_SIZE == eggCol && (int) snake.getBody().get(i).getY()/BLOCK_SIZE == eggRow){
     			return true;
     		}
     	}
