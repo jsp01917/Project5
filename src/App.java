@@ -135,19 +135,19 @@ public class App extends Application {
                          //when the neck is to the left of the head,
                          //then the snake cannot move to the left.
                          if (invalidMoveDirection() == Direction.LEFT){
-                            issueWarning("Bite the neck.");
+                            //issueWarning("Bite the neck.");
                            }
                         
                          //Call leftBodyNode method to find out whether 
                          //there is a left node next to the mouth.
                          if (leftBodyNode() != null){
-                            issueWarning("Bite a left node.");
+                           // issueWarning("Bite a left node.");
                             }
                          
                        //Done: write a if-statement to find out
                          //when the snake hits the left wall.
                          if(head.getX()/BLOCK_SIZE==0){
-                        	 issueWarning("Ran Into Left wall");
+                        	 //issueWarning("Ran Into Left wall");
                          }
                          move(Direction.LEFT); 
                          
@@ -160,16 +160,16 @@ public class App extends Application {
                          //The snake may also hit the right wall.
                          //If none of the above happens, move the snake to the right.
                     	if (invalidMoveDirection() == Direction.RIGHT){
-                            issueWarning("Bit the neck.");
+                           // issueWarning("Bit the neck.");
                            }
 
                          if (rightBodyNode() != null){
-                            issueWarning("Bite a right node.");
+                            //issueWarning("Bite a right node.");
                             }
                          
                
                          if(head.getX()/BLOCK_SIZE==NUM_COLS -1){
-                        	 issueWarning("Ran Into right wall");
+                        	 //issueWarning("Ran Into right wall");
                          }
                          move(Direction.RIGHT);
                     
@@ -178,15 +178,15 @@ public class App extends Application {
 
                     case UP:
                     	if (invalidMoveDirection() == Direction.UP){
-                            issueWarning("Bite the neck.");
+                            //issueWarning("Bite the neck.");
                            }
                      
                          if (upBodyNode() != null){
-                            issueWarning("Bite a Up node.");
+                           // issueWarning("Bite a Up node.");
                             }
                          
                          if(head.getY()/BLOCK_SIZE==0){
-                        	 issueWarning("Ran Into Up wall");
+                        	// issueWarning("Ran Into Up wall");
                          }
                          move(Direction.UP); 
 
@@ -196,15 +196,15 @@ public class App extends Application {
                     	System.out.println(head.getY()/BLOCK_SIZE);
                          //DONE: handle the case when the down arrow key is pressed. 
                     	if (invalidMoveDirection() == Direction.DOWN){
-                            issueWarning("Bite the neck.");
+                            //issueWarning("Bite the neck.");
                            }
                      
                          if (downBodyNode() != null){
-                            issueWarning("Bite a down node.");
+                            //issueWarning("Bite a down node.");
                             }
                          
                          if(head.getY()/BLOCK_SIZE==NUM_ROWS - 1){
-                        	 issueWarning("Ran Into down wall");
+                        	 //issueWarning("Ran Into down wall");
                          }
                          move(Direction.DOWN); 
 
@@ -484,7 +484,7 @@ public class App extends Application {
     	newHead.setY((snakeHeadRow)* (BLOCK_SIZE));
     	newHead.setHeight(BLOCK_SIZE);
     	newHead.setWidth(BLOCK_SIZE);
-    	snake.getBody().add(newHead);
+    	snake.getBody().add(0, newHead);
     	yard.getChildren().add(newHead);
     }
 
@@ -559,8 +559,11 @@ public class App extends Application {
 
     //TODO: the egg cannot collide with the nodes of the body of the snake.
     public boolean isEggOnSnake(int eggRow, int eggCol) {
+    	
     	for (int i = 0; i < body.size(); i++){
-    		if ((int) snake.getBody().get(i).getX() == eggRow && (int) snake.getBody().get(i).getY() == eggCol){
+    		System.out.println("egg: (" + eggCol + "," + eggRow + ")");
+    		System.out.println("node: (" + snake.getBody().get(i).getX()/ BLOCK_SIZE + "," + snake.getBody().get(i).getY()/BLOCK_SIZE + ")");
+    		if ((int) snake.getBody().get(i).getX()/BLOCK_SIZE == eggCol && (int) snake.getBody().get(i).getY()/BLOCK_SIZE == eggRow){
     			return true;
     		}
     	}
