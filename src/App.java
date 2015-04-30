@@ -322,17 +322,23 @@ public class App extends Application {
     private void eatEgg() {
         if ( isEggNextToSnakeHead() ) {
            if (snakeTailRow +1 < NUM_ROWS-1) { //try to add new tail to down direction
-              snakeTailRow += 1;
+               snakeTailRow += 1;
         	   addToTail();
            }
            else if (snakeTailRow -1 > 0) { //try to add new tail from up direction 
                    //TODO: attach a new node to the up direction of current tail 
+        	   snakeTailRow -= 1;
+        	   addToTail();
                 }
                 else if (snakeTailCol +1 < NUM_COLS-1) { //try to add new tail from right position
                         //TODO: attach a new node to the right of current tail 
+                	snakeTailCol += 1;
+             	   addToTail();
                      }
                      else if (snakeTailCol -1 > 0) { //try to add new tail from left position
                              //TODO: attach a new node to the left of current tail 
+                    	 snakeTailCol -= 1;
+                  	   		addToTail();
                           } 
                           else issueWarning("The snake cannot grow without touching a wall. Game over.");
           
